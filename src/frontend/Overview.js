@@ -19,9 +19,23 @@ export default class Overview extends Component {
 
     state = {
         data: null,
+        taskId: null,
     };
 
     componentDidMount() {
+        window.Jsw.Observer.append(({ id, status }) => {
+            if (this.state.taskId === id) {
+                if (['done', 'error', 'canceled'].includes(status)) {
+                    this.setState({ taskId: null });
+                }
+                this.refresh();
+            }
+        }, 'plesk:taskUpdate');
+
+        this.refresh();
+    }
+
+    refresh() {
         const { baseUrl } = this.props;
         axios.get(`${baseUrl}/api/list`).then(({ data }) => this.setState({ data }));
     }
@@ -43,6 +57,7 @@ export default class Overview extends Component {
                     },
                 ]}
                 data={this.state.data}
+                loadingRows={this.state.data.filter(({ application }) => application === 'loading').map(({ key }) => key)}
                 emptyView={
                     <ListEmptyView
                         title="Nothing found so far?.. No problem!"
@@ -60,6 +75,11 @@ export default class Overview extends Component {
     }
 
     renderRefreshButton() {
-        return <Button intent="primary">{'Scan your websites'}</Button>;
+        return <Button intent="primary" onClick={() => this.scan()}>{'Scan your websites'}</Button>;
+    }
+
+    scan() {
+        const { baseUrl } = this.props;
+        axios.post(`${baseUrl}/api/scan`).then(({ data: { id } }) => this.setState({ taskId: id }));
     }
 }

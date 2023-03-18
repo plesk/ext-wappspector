@@ -1,5 +1,7 @@
 <?php
 
+use PleskExt\Wappspector\WappspectorTask;
+
 class ApiController extends pm_Controller_Action
 {
     protected $_accessLevel = 'admin';
@@ -9,15 +11,24 @@ class ApiController extends pm_Controller_Action
         $domains = pm_Domain::getAllDomains();
         $data = array_map(function (pm_Domain $domain) {
             return [
+                'key' => $domain->getId(),
                 'name' => $domain->getDisplayName(),
-                'application' => 'unknown',
+                'application' => $domain->getSetting('wapp', 'not scanned yet'),
             ];
         }, $domains);
         $this->_helper->json(array_values($data));
     }
 
-    public function refreshAction(): void
+    public function scanAction(): void
     {
-        $this->_helper->json();
+        if (!$this->_request->isPost()) {
+            throw new pm_Exception('Permission denied');
+        }
+
+        $manager = new pm_LongTask_Manager();
+        $task = new WappspectorTask();
+        $manager->start($task);
+
+        $this->_helper->json($task);
     }
 }
