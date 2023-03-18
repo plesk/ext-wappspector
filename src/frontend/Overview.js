@@ -20,17 +20,23 @@ export default class Overview extends Component {
     state = {
         data: null,
         taskId: null,
+        loading: [],
     };
 
     componentDidMount() {
-        window.Jsw.Observer.append(({ id, status }) => {
+        window.Jsw.Observer.append(({ id, status, steps }) => {
             if (this.state.taskId === id) {
                 if (['done', 'error', 'canceled'].includes(status)) {
                     this.setState({ taskId: null });
                 }
+                this.setState({
+                    loading: steps
+                        .filter(({ status }) => !['done', 'error', 'canceled'].includes(status))
+                        .map(({ key }) => key)
+                })
                 this.refresh();
             }
-        }, 'plesk:taskUpdate');
+        }, 'plesk:taskStepUpdate');
 
         this.refresh();
     }
@@ -57,7 +63,8 @@ export default class Overview extends Component {
                     },
                 ]}
                 data={this.state.data}
-                loadingRows={this.state.data.filter(({ application }) => application === 'loading').map(({ key }) => key)}
+                loadingRows={this.state.loading}
+                onSelectionChange={() => {}}
                 emptyView={
                     <ListEmptyView
                         title="Nothing found so far?.. No problem!"
