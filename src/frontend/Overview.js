@@ -1,5 +1,10 @@
 import {
-    Alert,
+    List,
+    ListEmptyView,
+    Button,
+    ContentLoader,
+    Toolbar,
+    ToolbarGroup,
     Component,
     createElement,
     PropTypes,
@@ -13,25 +18,48 @@ export default class Overview extends Component {
     };
 
     state = {
-        time: null,
+        data: null,
     };
 
     componentDidMount() {
         const { baseUrl } = this.props;
-        axios.get(`${baseUrl}/api/ping`).then(({ data }) => this.setState({ time: data }));
+        axios.get(`${baseUrl}/api/list`).then(({ data }) => this.setState({ data }));
     }
 
     render() {
-        const { time } = this.state;
-
-        if (!time) {
-            return null;
+        if (this.state.data === null) {
+            return <ContentLoader />;
         }
-
         return (
-            <Alert intent="info">
-                {`Server response: ${time}`}
-            </Alert>
+            <List
+                columns={[
+                    {
+                        key: 'name',
+                        title: 'Domain name',
+                    },
+                    {
+                        key: 'application',
+                        title: 'Application',
+                    },
+                ]}
+                data={this.state.data}
+                emptyView={
+                    <ListEmptyView
+                        title="Nothing found so far?.. No problem!"
+                        description="You can refresh the data."
+                        actions={this.renderRefreshButton()}
+                    />
+                }
+                toolbar={(
+                    <Toolbar>
+                        <ToolbarGroup>{this.renderRefreshButton()}</ToolbarGroup>
+                    </Toolbar>
+                )}
+            />
         );
+    }
+
+    renderRefreshButton() {
+        return <Button intent="primary">{'Scan your websites'}</Button>;
     }
 }
