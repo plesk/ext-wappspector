@@ -65,6 +65,11 @@ export default class Overview extends Component {
                         title: 'Application',
                         render: row => this.renderButton(row),
                     },
+                    {
+                        key: 'version',
+                        title: 'Version',
+                        render: row => this.renderVersion(row),
+                    },
                 ]}
                 data={this.state.data}
                 loadingRows={this.state.loading}
@@ -83,6 +88,10 @@ export default class Overview extends Component {
                 )}
             />
         );
+    }
+
+    renderVersion({ version }) {
+        return version ?? '—';
     }
 
     renderRefreshButton() {
