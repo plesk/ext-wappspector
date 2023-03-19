@@ -94,24 +94,25 @@ export default class Overview extends Component {
     }
 
     renderButton(row) {
-        const links = {
-            composer: 'TODO',
-            dotnet: 'TODO',
-            drupal: 'TODO',
-            joomla: 'TODO',
-            laravel: 'TODO',
-            nodejs: 'TODO',
-            php: 'TODO',
-            prestashop: 'TODO',
-            python: 'TODO',
-            ruby: 'TODO',
-            typo3: 'TODO',
-            wordpress: 'TODO',
+        const nolinks = {
+            nohosting: true,
+            unknown: true,
         };
-        if (!links[row.application]) {
+        const domainOverviewLink = `/smb/web/overview/id/${row.key}/type/domain`;
+        const links = {
+            composer: `/modules/composer/index.php/domain-page/index/id/${row.key}`,
+            dotnet: `/modules/dot-net/index.php/index/domain?dom_id=${row.webspaceId}&site_id=${row.key}`,
+            joomla: `/modules/joomla-toolkit/index.php/index/index?dom_id=${row.webspaceId}&site_id=${row.key}`,
+            laravel: `/modules/laravel/index.php/index/domain?dom_id=${row.webspaceId}&site_id=${row.key}`,
+            nodejs: `/modules/nodejs/index.php/domain/index?dom_id=${row.webspaceId}&site_id=${row.key}`,
+            ruby: `/modules/ruby/index.php/domain/index?dom_id=${row.webspaceId}&site_id=${row.key}`,
+            wordpress: `/modules/wp-toolkit/index.php/domain/list/id/${row.key}`,
+        };
+        if (nolinks[row.application]) {
             return this.renderName(row);
         }
-        return <Button ghost component={Link} icon={this.renderIcon(row)}>{this.renderName(row)}</Button>;
+        const link = `/admin/subscription/login/id/${row.webspaceId}?pageUrl=${encodeURIComponent(links[row.application] ?? domainOverviewLink)}`;
+        return <Button ghost component={Link} href={link} icon={this.renderIcon(row)}>{this.renderName(row)}</Button>;
     }
 
     renderIcon({ application }) {
