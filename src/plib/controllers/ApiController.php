@@ -16,6 +16,10 @@ class ApiController extends pm_Controller_Action
                 'application' => $domain->getSetting('wapp', 'not scanned yet'),
             ];
         }, $domains);
+
+        if (count($data) === count(array_filter($data, fn ($row) => $row['application'] === 'not scanned yet'))) {
+            $data = [];
+        }
         $this->_helper->json(array_values($data));
     }
 
