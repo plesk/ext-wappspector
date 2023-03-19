@@ -13,13 +13,23 @@
             "PleskExt\\Wappspector\\": "src/plib/library/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/plesk/wappspector.git"
+        }
+    ],
     "require": {
-        "php": "^7.1|^8.0"
+        "php": "^7.1|^8.0",
+        "plesk/wappspector": "dev-main"
     },
     "require-dev": {
         "plesk/pm-api-stubs": "^18.0"
     },
     "config": {
+        "platform": {
+            "php": "8.0.28"
+        },
         "vendor-dir": "src/plib/vendor"
     }
 }

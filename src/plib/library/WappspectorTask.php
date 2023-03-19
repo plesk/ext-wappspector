@@ -2,6 +2,12 @@
 
 namespace PleskExt\Wappspector;
 
+use PleskExt\Wappspector\FileSystem\Factory;
+use Psr\Container\ContainerInterface;
+use Plesk\Wappspector\DIContainer;
+use Plesk\Wappspector\FileSystemFactory;
+use Plesk\Wappspector\Wappspector;
+
 class WappspectorTask extends \pm_LongTask_Task
 {
     public function getSteps()
@@ -35,10 +41,37 @@ class WappspectorTask extends \pm_LongTask_Task
         $this->setParam('loading', array_keys($loading));
 
         foreach ($domains as $domain) {
-            sleep(10);
-            $domain->setSetting('wapp', 'unknown');
+            $domain->setSetting('wapp', $this->scanDomain($domain));
             unset($loading[$domain->getId()]);
             $this->setParam('loading', array_keys($loading));
         }
+    }
+
+    public function onDone()
+    {
+        $manager = new \pm_LongTask_Manager();
+        $manager->cancel($this);
+    }
+
+    private function scanDomain(\pm_Domain $domain): string
+    {
+        if (!$domain->hasHosting()) {
+            return 'none';
+        }
+
+        $container = DIContainer::build();
+        $container->set(FileSystemFactory::class, function () use ($domain) {
+            return new Factory($domain);
+        });
+
+        try {
+            $results = $container->get(Wappspector::class)->run($domain->getDocumentRoot());
+            foreach ($results as $matcher) {
+                return $matcher['matcher'];
+            }
+        } catch (\Exception $e) {
+            \pm_Log::err($e);
+        }
+        return 'unknown';
     }
 }
