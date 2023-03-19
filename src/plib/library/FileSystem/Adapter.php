@@ -41,13 +41,15 @@ class Adapter implements FilesystemAdapter
     public function read(string $path): string
     {
         return $this->fileManager->fileGetContents($this->fileManager->joinPath($this->baseDir, $path));
-        throw new NotSupportedException();
     }
 
     public function readStream(string $path)
     {
-        // TODO: Implement readStream() method.
-        throw new NotSupportedException();
+        $fd = fopen('php://memory', 'rw');
+        fwrite($fd, $this->read($path));
+        rewind($fd);
+
+        return $fd;
     }
 
     public function delete(string $path): void

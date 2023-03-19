@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a1dfe011d992576177de2d77d74c477",
+    "content-hash": "5d81ff29c359461f6d2ffb45aa3f841f",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -449,12 +449,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/plesk/wappspector.git",
-                "reference": "b0ce3b5cbc274f4b8a602dc60312cc6c77af3523"
+                "reference": "4dcca9f839687f9c169d9b79ea0a2ab23f73d3cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/plesk/wappspector/zipball/b0ce3b5cbc274f4b8a602dc60312cc6c77af3523",
-                "reference": "b0ce3b5cbc274f4b8a602dc60312cc6c77af3523",
+                "url": "https://api.github.com/repos/plesk/wappspector/zipball/4dcca9f839687f9c169d9b79ea0a2ab23f73d3cb",
+                "reference": "4dcca9f839687f9c169d9b79ea0a2ab23f73d3cb",
                 "shasum": ""
             },
             "require": {
@@ -491,7 +491,7 @@
                 "source": "https://github.com/plesk/wappspector/tree/main",
                 "issues": "https://github.com/plesk/wappspector/issues"
             },
-            "time": "2023-03-19T10:19:45+00:00"
+            "time": "2023-03-19T11:51:34+00:00"
         },
         {
             "name": "psr/container",
@@ -1741,7 +1741,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1|^8.0"
+        "php": "^8.0"
     },
     "platform-dev": [],
     "platform-overrides": {

@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "php": "^7.1|^8.0",
+        "php": "^8.0",
         "plesk/wappspector": "dev-main"
     },
     "require-dev": {
