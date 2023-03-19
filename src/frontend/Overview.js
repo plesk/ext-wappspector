@@ -3,6 +3,7 @@ import {
     Link,
     List,
     ListEmptyView,
+    Text,
     Button,
     ContentLoader,
     Toolbar,
@@ -111,8 +112,18 @@ export default class Overview extends Component {
         if (nolinks[row.application]) {
             return this.renderName(row);
         }
+
         const link = `/admin/subscription/login/id/${row.webspaceId}?pageUrl=${encodeURIComponent(links[row.application] ?? domainOverviewLink)}`;
-        return <Button ghost component={Link} href={link} icon={this.renderIcon(row)}>{this.renderName(row)}</Button>;
+
+        return (
+            <Text style={{ textDecoration: 'none'}} href={link} component={Link} bold>
+                <div>
+                    {this.renderIcon(row)}
+                    {' '}
+                    {this.renderName(row)}
+                </div>
+            </Text>
+        );
     }
 
     renderIcon({ application }) {
@@ -138,7 +149,7 @@ export default class Overview extends Component {
         const dirname = url => url.split('/').slice(0, -1).join('/');
         const icon = `${dirname(baseUrl)}/images/${icons[application]}`;
 
-        return <Icon src={icon} />
+        return <Icon style={{ verticalAlign: 'middle'}} size={24} src={icon} />
     }
 
     renderName({ application }) {
