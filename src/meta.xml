@@ -5,7 +5,7 @@
     <description>Analyze the file structure of a web hosting server and identify the frameworks and CMS used in the websites hosted on it.</description>
     <category>example</category>
     <version>1.0.0</version>
-    <release>1</release>
+    <release>{{RELEASE}}</release>
     <vendor>Plesk</vendor>
     <url>https://www.plesk.com</url>
     <plesk_min_version>18.0.50</plesk_min_version>
