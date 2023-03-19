@@ -12,8 +12,10 @@ class ApiController extends pm_Controller_Action
         $data = array_map(function (pm_Domain $domain) {
             return [
                 'key' => $domain->getId(),
+                'webspaceId' => $domain->getProperty('webspace_id') ?: $domain->getId(),
                 'name' => $domain->getDisplayName(),
                 'application' => $domain->getSetting('wapp', 'not scanned yet'),
+                'version' => $domain->getSetting('wapp-version'),
             ];
         }, $domains);
 

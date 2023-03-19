@@ -449,12 +449,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/plesk/wappspector.git",
-                "reference": "def72e171df88d1583d2d81c4f2565e15747ccf6"
+                "reference": "e4da7af8b7098f1794fd95af30c22273cddf17be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/plesk/wappspector/zipball/def72e171df88d1583d2d81c4f2565e15747ccf6",
-                "reference": "def72e171df88d1583d2d81c4f2565e15747ccf6",
+                "url": "https://api.github.com/repos/plesk/wappspector/zipball/e4da7af8b7098f1794fd95af30c22273cddf17be",
+                "reference": "e4da7af8b7098f1794fd95af30c22273cddf17be",
                 "shasum": ""
             },
             "require": {
@@ -491,7 +491,7 @@
                 "source": "https://github.com/plesk/wappspector/tree/main",
                 "issues": "https://github.com/plesk/wappspector/issues"
             },
-            "time": "2023-03-19T13:23:36+00:00"
+            "time": "2023-03-19T14:22:06+00:00"
         },
         {
             "name": "psr/container",

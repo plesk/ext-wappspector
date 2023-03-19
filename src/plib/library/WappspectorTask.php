@@ -41,7 +41,10 @@ class WappspectorTask extends \pm_LongTask_Task
         $this->setParam('loading', array_keys($loading));
 
         foreach ($domains as $domain) {
-            $domain->setSetting('wapp', $this->scanDomain($domain));
+            $matcher = $this->scanDomain($domain);
+            $domain->setSetting('wapp', $matcher['matcher']);
+            $domain->setSetting('wapp-version', $matcher['version'] ?? null);
+
             unset($loading[$domain->getId()]);
             $this->setParam('loading', array_keys($loading));
         }
@@ -53,10 +56,12 @@ class WappspectorTask extends \pm_LongTask_Task
         $manager->cancel($this);
     }
 
-    private function scanDomain(\pm_Domain $domain): string
+    private function scanDomain(\pm_Domain $domain): array
     {
         if (!$domain->hasHosting()) {
-            return 'none';
+            return [
+                'matcher' => 'nohosting',
+            ];
         }
 
         $container = DIContainer::build();
@@ -67,11 +72,14 @@ class WappspectorTask extends \pm_LongTask_Task
         try {
             $results = $container->get(Wappspector::class)->run($domain->getDocumentRoot());
             foreach ($results as $matcher) {
-                return $matcher['matcher'];
+                return $matcher;
             }
         } catch (\Exception $e) {
             \pm_Log::err($e);
         }
-        return 'unknown';
+
+        return [
+            'matcher' => 'unknown',
+        ];
     }
 }
